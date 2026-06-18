@@ -13,6 +13,7 @@ An AI-powered web application that analyzes research papers and generates meanin
 - Calculate paper difficulty score
 - Download analysis report
 - PDF preview before analysis
+- PPT Generator
 
 ## 🛠️ Tech Stack
 
