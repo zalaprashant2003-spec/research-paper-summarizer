@@ -13,7 +13,7 @@ An AI-powered web application that analyzes research papers and generates meanin
 - Calculate paper difficulty score
 - Download analysis report
 - PDF preview before analysis
-- PPT Generator
+- Generate PowerPoint presentation automatically
 
 ## 🛠️ Tech Stack
 
@@ -32,18 +32,23 @@ An AI-powered web application that analyzes research papers and generates meanin
 
 ## 📂 Project Structure
 
+```text
 research-paper-summarizer/
+│
 ├── backend/
-│ ├── app.py
-│ ├── utils.py
-│ ├── requirements.txt
-│ └── .env
+│   ├── app.py
+│   ├── utils.py
+│   ├── ppt_generator.py
+│   ├── requirements.txt
+│   └── .env
 │
 ├── frontend/
-│ ├── src/
-│ ├── public/
-│ └── package.json
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── package-lock.json
 │
+├── .gitignore
 └── README.md
 
 ## ⚙️ Setup
