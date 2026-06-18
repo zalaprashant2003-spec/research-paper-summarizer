@@ -50,6 +50,7 @@ research-paper-summarizer/
 │
 ├── .gitignore
 └── README.md
+```
 
 ## ⚙️ Setup
 
@@ -85,10 +86,46 @@ Create a `.env` file inside the backend folder:
 GEMINI_API_KEY=your_api_key_here
 ```
 
-## 🌐 API Endpoint
+## 🌐 API Endpoints
+
+### 📄 Research Paper Analysis
 
 ```http
 POST /summarize
+```
+
+Upload a PDF research paper and receive:
+
+- Executive Summary
+- Key Findings
+- Future Work Suggestions
+- Important Keywords
+- Interview Questions
+- Difficulty Score
+- Difficulty Explanation
+
+---
+
+### 📊 PowerPoint Presentation Generator
+
+```http
+POST /generate-ppt
+```
+
+Upload a PDF research paper and automatically generate a PowerPoint presentation.
+
+### Generated Slides
+
+- Problem Statement
+- Methodology
+- Results
+- Conclusion
+- Future Work
+
+### Output
+
+```text
+Research_Presentation.pptx
 ```
 
 
