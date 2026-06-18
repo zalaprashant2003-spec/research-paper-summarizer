@@ -43,6 +43,8 @@ function App() {
 
   const fileInputRef = useRef(null);
 
+  const [pptLoading, setPptLoading] = useState(false);
+
   const clearFile = () => {
     setFile(null);
     setResult(null);
@@ -91,6 +93,62 @@ function App() {
     }
   };
 
+
+  const downloadPPT = async () => {
+
+  if (!file) {
+    alert("Please select a PDF");
+    return;
+  }
+
+ try {
+
+  setPptLoading(true);
+
+  const formData = new FormData();
+
+  formData.append("file", file);
+
+  const response = await axios.post(
+    "http://127.0.0.1:8000/generate-ppt",
+    formData,
+    {
+      responseType: "blob"
+    }
+  );
+
+  const url =
+    window.URL.createObjectURL(
+      new Blob([response.data])
+    );
+
+  const link =
+    document.createElement("a");
+
+  link.href = url;
+
+  link.download =
+    "Research_Presentation.pptx";
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  link.remove();
+
+} catch (error) {
+
+  console.error(error);
+
+  alert("Failed to generate PPT");
+
+} finally {
+
+  setPptLoading(false);
+
+}
+
+};
   return (
     <div
       className={`min-h-screen transition-colors duration-300 ${
@@ -175,29 +233,43 @@ function App() {
             transition={{ duration: 0.5 }}
             className="space-y-6"
           >
-            {/* Download Report Button */}
-            <motion.div
-              className="flex justify-center"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.3 }}
+            
+          {/* Action Buttons */}
+          <motion.div
+            className="flex justify-center gap-4"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.3 }}
+          >
+            <motion.button
+              onClick={() => exportReport(result)}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold shadow-lg ${
+                darkMode
+                  ? "bg-gradient-to-r from-green-600 to-emerald-600 text-white"
+                  : "bg-gradient-to-r from-green-600 to-emerald-600 text-white"
+              }`}
             >
-              <motion.button
-                onClick={() => exportReport(result)}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all shadow-lg ${
-                  darkMode
-                    ? "bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white shadow-green-500/30"
-                    : "bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white shadow-green-500/20"
-                }`}
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Download Report
-              </motion.button>
-            </motion.div>
+              📄 Download Report
+            </motion.button>
+
+            <motion.button
+              onClick={downloadPPT}
+              disabled={pptLoading}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold shadow-lg ${
+                darkMode
+                  ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white"
+                  : "bg-gradient-to-r from-blue-600 to-cyan-600 text-white"
+              }`}
+            >
+              {pptLoading
+                ? "⏳ Generating PPT..."
+                : "📊 Generate PPT"}
+            </motion.button>
+          </motion.div>
 
             {/* Summary Card */}
             <ResultCard

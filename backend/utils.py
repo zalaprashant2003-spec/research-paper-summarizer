@@ -66,3 +66,43 @@ Paper:
     cleaned = cleaned.replace("```", "")
 
     return json.loads(cleaned)
+
+def generate_ppt_content(text):
+
+    prompt = f"""
+You are an expert research analyst.
+
+Analyze this research paper.
+
+Return ONLY valid JSON.
+
+IMPORTANT:
+
+- Maximum 5 bullet points per section
+- Maximum 15 words per bullet
+- Very concise
+- Presentation ready
+- No paragraphs
+
+{{
+  "problem": [],
+  "method": [],
+  "results": [],
+  "conclusion": [],
+  "future_work": []
+}}
+
+Paper:
+
+{text[:50000]}
+"""
+
+    response = model.generate_content(prompt)
+
+    cleaned = (
+        response.text
+        .replace("```json", "")
+        .replace("```", "")
+    )
+
+    return json.loads(cleaned)
